@@ -1,0 +1,8 @@
+{
+  "name": "墨影科技 - 开放生态",
+  "description": "打造 CNC 智能制造开放生态，包含开放平台、产品生态与墨影学院三大核心板块。",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

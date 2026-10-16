@@ -1,0 +1,44 @@
+.industrial-scene { position: relative; min-width: 0; width: min(100%, 620px); height: 510px; margin-left: auto; isolation: isolate; overflow: hidden; border: 1px solid rgba(181, 181, 160, .24); border-radius: 12px; background: radial-gradient(circle at 52% 42%, #3a3d35 0%, #252a24 58%, #1b201b 100%); box-shadow: 0 24px 64px rgba(0,0,0,.26); }
+.industrial-scene__canvas { position: absolute; inset: 0; }
+.industrial-scene__canvas canvas { display: block; width: 100%; height: 100%; }
+.industrial-scene__caption { position: absolute; top: 18px; right: 18px; display: grid; gap: 7px; width: 190px; padding: 14px 15px; border: 1px solid rgba(191, 194, 169, .16); border-radius: 7px; color: #eeeee4; background: rgba(29, 34, 28, .91); pointer-events: none; }
+.industrial-scene__caption strong { font-size: 15px; font-weight: 650; }
+.industrial-scene__legend { position: absolute; left: 15px; top: 15px; display: flex; flex-wrap: wrap; gap: 5px 11px; max-width: calc(100% - 225px); padding: 8px 10px; border: 1px solid rgba(191, 194, 169, .16); border-radius: 6px; color: #d2d3c5; background: rgba(29, 34, 28, .88); font-size: 10px; }
+.industrial-scene__legend span { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.industrial-scene__legend i { width: 7px; height: 7px; border-radius: 2px; }
+.industrial-scene__legend .rack { background: #aaa894; }
+.industrial-scene__legend .route { background: #c59a55; }
+.industrial-scene__legend .conveyor { background: #d3d1c1; }
+.industrial-scene__controls { position: absolute; inset: auto 14px 14px; display: flex; align-items: center; gap: 7px; }
+.industrial-scene__controls button { min-height: 34px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 0 10px; border: 1px solid rgba(200, 201, 179, .25); border-radius: 6px; color: #e7e7da; background: rgba(30, 35, 28, .9); font-size: 11px; }
+.industrial-scene__controls button:hover:not(:disabled) { border-color: #c59a55; background: #43493a; }
+.industrial-scene__controls button:disabled { opacity: .5; cursor: not-allowed; }
+.industrial-scene__controls button:focus-visible { outline: 2px solid #c59a55; outline-offset: 2px; }
+.industrial-scene__fallback { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; color: #bfc3ac; background: transparent; font-size: 12px; }
+.industrial-scene__fallback > span:last-child { position: absolute; bottom: 50%; }
+@media (max-width: 1100px) { .industrial-scene { height: 450px; } .industrial-scene__caption { top: 12px; right: 12px; width: 175px; } }
+@media (max-width: 760px) { .industrial-scene { width: 100%; height: min(110vw, 430px); margin: 32px 0 0; } .industrial-scene__caption { width: 165px; padding: 10px; } .industrial-scene__caption strong { font-size: 12px; } .industrial-scene__caption small { font-size: 10px; } .industrial-scene__legend { top: 10px; left: 10px; max-width: 130px; padding: 7px; gap: 4px; } }
+@media (prefers-reduced-motion: reduce) { .industrial-scene * { animation: none !important; transition: none !important; } }
+.industrial-scene--loading { display: grid; place-items: center; color: #c5c8b5; font-size: 13px; }
+
+.industrial-scene__controls button { cursor: pointer; transition: background .2s, border-color .2s, transform .2s; }
+.industrial-scene__controls button:active:not(:disabled) { transform: scale(.96); }
+
+/* Open industrial diorama, following the supplied factory reference. */
+.industrial-scene { width: 100%; max-width: 850px; height: 600px; border: 0; border-radius: 0; background: radial-gradient(ellipse at 52% 56%, #292b2e 0%, #1b1d20 45%, transparent 73%); box-shadow: none; }
+.industrial-scene__caption { bottom: 18px; top: auto; left: 20px; right: auto; padding: 0; width: auto; border: 0; background: none; gap: 5px; }
+.industrial-scene__caption strong { color: #e3e5e6; font-size: 16px; }
+.industrial-scene__legend { top: 12px; left: auto; right: 12px; border: 0; background: none; padding: 0; color: #979da1; max-width: 240px; }
+.industrial-scene__legend .rack { background: #a9afae; }
+.industrial-scene__legend .route { background: #7f9082; }
+.industrial-scene__legend .conveyor { background: #d4b239; }
+.industrial-scene__controls button { background: rgba(25,28,30,.86); border-color: #3c4144; color: #c4c9ca; }
+.industrial-scene__controls button:hover:not(:disabled) { background: #33393c; border-color: #7d8588; }
+.industrial-scene__controls button:focus-visible { outline-color: #c9b04e; }
+@media (max-width: 760px) { .industrial-scene { height: min(110vw, 490px); margin-top: 38px; } .industrial-scene__caption { left: 14px; bottom: 14px; top: auto; } .industrial-scene__controls { right: 14px; bottom: 12px; } }
+
+.industrial-scene__controls { justify-content: flex-end; }
+
+/* Never expose the unfinished scene while GLBs are arriving. */
+.industrial-scene--loading .industrial-scene__canvas,
+.industrial-scene--fallback .industrial-scene__canvas { visibility: hidden; }

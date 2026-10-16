@@ -1,0 +1,359 @@
+/* =========================================================================
+   Industrial Bento Suite 4.0 - Scoped Styling & Tokens
+   Faithfully matching reference image and user Tailwind design specifications
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+.industrial-bento-wrapper {
+  --bento-bg: #121318;
+  --bento-surface: #121318;
+  --bento-surface-low: #1a1b21;
+  --bento-surface-container: #1e1f25;
+  --bento-surface-high: #292a2f;
+  --bento-surface-highest: #34343a;
+  --bento-surface-lowest: #0d0e13;
+  --bento-surface-bright: #38393f;
+  
+  --bento-on-surface: #e3e1e9;
+  --bento-on-surface-variant: #c1c6d7;
+  --bento-outline: #8b90a0;
+  --bento-outline-variant: #414754;
+  
+  --bento-primary: #aec6ff;
+  --bento-primary-container: #006fee;
+  --bento-on-primary-container: #fefbff;
+  --bento-primary-fixed: #d8e2ff;
+  
+  --bento-tertiary: #00daf3;
+  --bento-tertiary-container: #00808f;
+  --bento-on-tertiary: #00363d;
+  
+  --bento-secondary: #dbb8ff;
+  --bento-secondary-container: #6602b6;
+  --bento-on-secondary-container: #cea2ff;
+  
+  --bento-error: #ffb4ab;
+  --bento-error-container: #93000a;
+  
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bento-bg);
+  color: var(--bento-on-surface);
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Material Symbols support */
+.industrial-bento-wrapper .material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+}
+
+/* Typography Helpers */
+.industrial-bento-wrapper .font-display {
+  font-family: 'Geist', sans-serif;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+.industrial-bento-wrapper .font-headline-md {
+  font-family: 'Geist', sans-serif;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+.industrial-bento-wrapper .font-label-caps {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.industrial-bento-wrapper .font-code-inline {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+.industrial-bento-wrapper .font-code-block {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+/* Background Atmosphere Glows */
+.industrial-bento-wrapper .bento-ambient-glow-1 {
+  position: absolute;
+  top: 48px;
+  left: 20%;
+  width: 420px;
+  height: 420px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(0, 111, 238, 0.12) 0%, transparent 70%);
+  filter: blur(100px);
+  pointer-events: none;
+}
+.industrial-bento-wrapper .bento-ambient-glow-2 {
+  position: absolute;
+  top: 45%;
+  right: 18%;
+  width: 520px;
+  height: 520px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(102, 2, 182, 0.16) 0%, transparent 70%);
+  filter: blur(140px);
+  pointer-events: none;
+}
+.industrial-bento-wrapper .bento-ambient-glow-3 {
+  position: absolute;
+  bottom: 80px;
+  left: 28%;
+  width: 380px;
+  height: 380px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(0, 218, 243, 0.1) 0%, transparent 70%);
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+/* Bento Card Base */
+.industrial-bento-wrapper .bento-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--bento-surface-low);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.6);
+  padding: 28px 28px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.industrial-bento-wrapper .bento-card:hover {
+  background: #1e1f26;
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 218, 243, 0.04);
+}
+
+/* Card 6 Full-width side-by-side grid */
+.industrial-bento-wrapper .bento-card-fullwidth {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--bento-surface-low);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.6);
+  padding: 36px 40px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.industrial-bento-wrapper .bento-card-fullwidth:hover {
+  background: #1e1f26;
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 218, 243, 0.04);
+}
+@media (min-width: 1024px) {
+  .industrial-bento-wrapper .bento-card-fullwidth {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: center;
+    gap: 48px;
+    text-align: left;
+  }
+}
+
+/* Simplified, prominent & taller Desktop Window for Card 1 */
+.desktop-clean-window {
+  position: relative;
+  background: #0f1015;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 111, 238, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
+}
+.industrial-bento-wrapper .group:hover .desktop-clean-window {
+  border-color: rgba(0, 218, 243, 0.25);
+  box-shadow: 0 25px 55px -10px rgba(0, 0, 0, 0.95), 0 0 35px rgba(0, 218, 243, 0.15);
+  transform: translateY(-2px);
+}
+
+/* ================= Industrial Studio Desktop Display ================= */
+.desktop-display-frame {
+  position: relative;
+  background: #121318;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 111, 238, 0.08);
+  transition: all 0.4s ease;
+}
+.industrial-bento-wrapper .group:hover .desktop-display-frame {
+  border-color: rgba(0, 218, 243, 0.2);
+  box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 218, 243, 0.12);
+  transform: translateY(-2px);
+}
+.desktop-bezel-top {
+  position: relative;
+  background: #17181f;
+}
+.desktop-canvas-area {
+  position: relative;
+  background: radial-gradient(circle at 50% 10%, #1e2029 0%, #0d0e13 100%);
+}
+
+/* Desktop Dock Bar */
+.desktop-dock-bar {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+.desktop-dock-bar:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 218, 243, 0.15);
+}
+.desktop-dock-item {
+  cursor: pointer;
+}
+.desktop-dock-item > div {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.desktop-dock-item:hover > div {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 218, 243, 0.3);
+}
+
+/* Tactile Micro-Icon Grid (Card 2) */
+.tactile-icon-btn {
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  background: #24252b;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tactile-icon-btn:hover {
+  background: #34353c;
+  transform: translateY(-2px) scale(1.04);
+  border-color: rgba(0, 218, 243, 0.3);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6), 0 0 14px rgba(0, 218, 243, 0.2);
+}
+.tactile-icon-btn:active {
+  transform: scale(0.96);
+}
+
+/* Layered Plugin Mockup Cards (Card 3) */
+.floating-stack-card-back {
+  position: absolute;
+  top: 12px;
+  width: 200px;
+  height: 130px;
+  border-radius: 18px;
+  background: #34343a;
+  opacity: 0.35;
+  transform: rotate(-6deg);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.5s ease;
+}
+.industrial-bento-wrapper .group:hover .floating-stack-card-back {
+  transform: rotate(-12deg) translateY(-4px);
+}
+.floating-stack-card-mid {
+  position: absolute;
+  top: 24px;
+  width: 215px;
+  height: 130px;
+  border-radius: 18px;
+  background: #1e1f25;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  opacity: 0.75;
+  transform: rotate(3deg);
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.6);
+  transition: transform 0.5s ease;
+}
+.industrial-bento-wrapper .group:hover .floating-stack-card-mid {
+  transform: rotate(7deg) translateY(-2px);
+}
+.floating-stack-card-front {
+  position: relative;
+  width: 240px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(41, 42, 47, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(102, 2, 182, 0.2);
+  transition: transform 0.35s ease;
+}
+.industrial-bento-wrapper .group:hover .floating-stack-card-front {
+  transform: scale(1.05);
+}
+
+/* Waveform SVG glow & pulse */
+.rtos-waveform-glow {
+  filter: drop-shadow(0 0 8px rgba(0, 111, 238, 0.6));
+}
+
+/* Live Radar Scan sweep animation */
+@keyframes radar-sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.radar-sweep-beam {
+  transform-origin: 120px 60px;
+  animation: radar-sweep 5s linear infinite;
+}
+
+/* Copy Command Button */
+.bento-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #c1c6d7;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.bento-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(0, 218, 243, 0.35);
+}
+
+/* Responsive Rules */
+@media (max-width: 1024px) {
+  .industrial-bento-wrapper .desktop-display-frame {
+    max-width: 100%;
+  }
+}

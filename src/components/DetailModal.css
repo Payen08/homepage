@@ -1,0 +1,53 @@
+.detail-modal {
+  position:fixed;
+  inset:0;
+  margin:auto;
+  padding:0;
+  width:min(600px,calc(100vw - 40px));
+  max-width:none;
+  max-height:calc(100dvh - 48px);
+  border:1px solid #3b3b3b;
+  border-radius:18px;
+  background:#1c1c1c;
+  color:#e5e5e5;
+  box-shadow:0 24px 90px rgba(0,0,0,.45);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+.detail-modal::backdrop { background:rgba(0,0,0,.6); backdrop-filter:blur(4px); }
+.detail-modal .detail-drawer {
+  width:100%;
+  height:auto;
+  padding:36px 32px 28px;
+  border:0;
+  border-radius:0;
+  background:#1c1c1c;
+  box-shadow:none;
+  animation:none;
+  overflow:visible;
+}
+.detail-modal .detail-drawer h2 { color:#f0f0f0; font-size:25px; }
+.detail-modal .drawer-intro { color:#a8a8a8; }
+.detail-modal .drawer-specs { border-color:#363636; background:#363636; }
+.detail-modal .drawer-specs div { background:#242424; }
+.detail-modal .drawer-specs strong { color:#e5e5e5; }
+.detail-modal .drawer-specs span { color:#999; }
+.detail-modal .drawer-close { color:#aaa; border-color:#3c3c3c; }
+.detail-modal .drawer-scene { background:#252525; }
+@media(max-width:600px) {
+  .detail-modal { width:calc(100vw - 24px); max-height:calc(100dvh - 32px); border-radius:14px; }
+  .detail-modal .detail-drawer { padding:38px 22px 24px; }
+  .detail-modal .detail-drawer h2 { font-size:22px; }
+}
+
+.detail-modal .detail-product-header { display:flex; align-items:flex-start; gap:12px; padding-right:36px; margin-bottom:22px; }
+.detail-modal .detail-product-header .drawer-icon { width:43px; height:43px; flex:0 0 43px; }
+.detail-modal .detail-product-title { flex:1; min-width:0; }
+.detail-modal .detail-product-title h2 { margin:0 0 7px; font-size:18px; font-weight:600; line-height:1.4; letter-spacing:-.025em; }
+.detail-modal .detail-product-meta { display:flex; align-items:center; flex-wrap:wrap; gap:8px; color:#999; font-size:10px; line-height:1.5; }
+.detail-modal .detail-product-meta .category-tag { min-height:21px; color:#bbb; border-color:#444; background:#ffffff08; }
+.detail-modal .detail-product-header > .badge { flex-shrink:0; margin:2px 0 0; white-space:nowrap; border:0; }
+@media(max-width:600px) {
+  .detail-modal .detail-product-header { gap:10px; padding-right:0; padding-top:10px; }
+  .detail-modal .detail-product-title h2 { font-size:16px; }
+}
