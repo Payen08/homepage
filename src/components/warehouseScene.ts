@@ -12,7 +12,7 @@ export function box(group: THREE.Object3D, mat: THREE.Material, size: number[], 
   return mesh;
 }
 
-function label(stage: THREE.Group, text: string, x: number, z: number, width = 2) {
+export function label(stage: THREE.Group, text: string, x: number, z: number, width = 2) {
   const canvas = document.createElement('canvas');
   canvas.width = 512; canvas.height = 96;
   const context = canvas.getContext('2d')!;
@@ -23,7 +23,7 @@ function label(stage: THREE.Group, text: string, x: number, z: number, width = 2
   mesh.rotation.x = -Math.PI / 2; mesh.position.set(x, 0.018, z); stage.add(mesh);
 }
 
-function route(stage: THREE.Group, coordinates: number[][]) {
+export function route(stage: THREE.Group, coordinates: number[][]) {
   const vertices = coordinates.map(([x, z]) => new THREE.Vector3(x, 0.025, z));
   const path = new THREE.CurvePath<THREE.Vector3>();
   const radius = 0.9;
@@ -48,7 +48,7 @@ export const RACK_STATIONS = [-3.1, -0.9, 1.3, 3.5].map(z => [-11.2, z, Math.PI 
 export const ROBOT_BASE_LENGTH = 1.5;
 export const MCR_STATIONS = [[3, 6.4], [6.3, -0.8], [-9.3, 2.1]];
 
-export function buildWarehouse(stage: THREE.Group) {
+export function buildFactoryShell(stage: THREE.Group) {
   const concrete = material(0x454649, 0.18), wall = material(0x303235, 0.08);
   const steel = material(0x777d7d, 0.65), white = material(0xd7dada, 0.3);
   const dark = material(0x202526, 0.5), green = material(0x306747, 0.2);
@@ -77,9 +77,14 @@ export function buildWarehouse(stage: THREE.Group) {
   (grid.material as THREE.Material).transparent = true;
   (grid.material as THREE.Material).opacity = 0.12; stage.add(grid);
 
+  return { steel, white, dark, green, tote };
+}
+
+export function buildMachineRooms(stage: THREE.Group, positions = [-9.1, -5.3, -1.5]) {
+  const white = material(0xd7dada, 0.3), steel = material(0x777d7d, 0.65), dark = material(0x202526, 0.5);
   // Machine rooms contain the server cabinets exported from the source Blender file.
   // Open roofs and glazed sides keep equipment and service aisles visible.
-  for (const x of [-9.1, -5.3, -1.5]) {
+  for (const x of positions) {
     const room = new THREE.Group(); room.position.set(x, 0, -6.45);
     room.name = 'Machine room'; stage.add(room);
     box(room, dark, [2.9, 0.16, 3.7], [0, 0.09, 0]);
@@ -99,6 +104,11 @@ export function buildWarehouse(stage: THREE.Group) {
     for (const dz of [-1.35, -0.45, 0.45, 1.35]) box(room, white, [2.8, 0.06, 0.045], [0, 3.12, dz]);
   }
 
+}
+
+export function buildWarehouse(stage: THREE.Group) {
+  const { steel, white, dark, green, tote } = buildFactoryShell(stage);
+  buildMachineRooms(stage);
   const parcels: THREE.Mesh[] = [];
   for (const z of [4.5, 6.9]) {
     for (const x of [-10.5, -8.8, -7.1, -5.4, -3.7]) {
@@ -162,20 +172,20 @@ export function finishModel(model: THREE.Group, span: number, footprint?: THREE.
 }
 
 export function rigMCR(model: THREE.Group) {
-  // The source GLB retains URDF joint (translation) → link (origin rotation) nodes.
-  // Rotate each link in its declared local joint frame, never overwrite model root transforms.
+  // In this export the configured axes live in the joint pivot's frame,
+  // before the child's CAD alignment rotation. Keep every bind transform.
   const joints = robotConfig.urdf.joints.map((definition) => {
     const pivot = model.getObjectByName(definition.name);
     const link = model.getObjectByName(definition.childLinkName);
     if (!pivot || !link || link.parent !== pivot) throw new Error(`MCR 关节缺失: ${definition.name}`);
-    const { x, y, z, roll, pitch, yaw } = definition.origin;
-    pivot.position.set(x, y, z);
-    const origin = new THREE.Quaternion().setFromEuler(new THREE.Euler(roll, pitch, yaw, 'ZYX'));
+    const saved = link.userData.mcrBindRotation as number[] | undefined;
+    const origin = saved ? new THREE.Quaternion().fromArray(saved) : link.quaternion.clone();
+    link.userData.mcrBindRotation = origin.toArray();
     const axis = new THREE.Vector3(definition.axis.x, definition.axis.y, definition.axis.z).normalize();
     return { link, origin, axis };
   });
   const pose = (degrees: number[]) => joints.forEach(({ link, origin, axis }, i) => {
-    link.quaternion.copy(origin).multiply(new THREE.Quaternion().setFromAxisAngle(axis, THREE.MathUtils.degToRad(degrees[i])));
+    link.quaternion.setFromAxisAngle(axis, THREE.MathUtils.degToRad(degrees[i])).multiply(origin);
   });
   pose(MCR_HOME);
   return pose;

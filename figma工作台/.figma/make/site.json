@@ -1,0 +1,10 @@
+{
+  "description": "Streamline plugin development with integrated AI coding assistance, project management, code review, and terminal debugging for developers.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

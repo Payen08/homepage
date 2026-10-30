@@ -1,0 +1,89 @@
+.developer-workspace-viewport {
+  height: 100dvh;
+  overflow: auto;
+  background: #f6f7fb;
+  color-scheme: light;
+}
+
+.developer-workspace {
+  height: 100%;
+  min-height: 700px;
+  min-width: 1280px;
+  font-family: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+.developer-workspace.developer-workspace-agent { width: 100%; min-width: 0; min-height: 0; }
+.developer-workspace-agent > section { min-height: 0; }
+.developer-workspace-agent .developer-platform-header { display: none; }
+.developer-account-row { display: flex; align-items: center; gap: 4px; }
+.developer-account-row > .developer-user-button { min-width: 0; flex: 1; }
+.developer-navigation-toggle { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 28px; height: 32px; margin: 0; padding: 0; border: 0; border-radius: 8px; background: transparent; color: #666666; }
+.developer-navigation-toggle:hover { background: #f4f4f8; color: #241f7d; }
+.developer-navigation-toggle svg { flex-shrink: 0; }
+.developer-workspace-agent.is-navigation-collapsed > .developer-platform-sidebar { width: 56px; }
+.developer-workspace-agent.is-navigation-collapsed .developer-platform-brand { justify-content: center; gap: 0; padding: 0; }
+.developer-workspace-agent.is-navigation-collapsed .developer-platform-brand > div:last-child { display: none; }
+.developer-workspace-agent.is-navigation-collapsed .developer-platform-sidebar > nav { padding: 12px 6px; }
+.developer-workspace-agent.is-navigation-collapsed .developer-platform-sidebar > nav > div:first-child { display: none; }
+.developer-workspace-agent.is-navigation-collapsed .developer-platform-sidebar nav button { justify-content: center; padding: 0; }
+.developer-workspace-agent.is-navigation-collapsed .developer-menu-label, .developer-workspace-agent.is-navigation-collapsed .developer-platform-sidebar nav button > span:last-child:not(:first-child) { display: none; }
+.developer-workspace-agent.is-navigation-collapsed .developer-platform-sidebar > div:last-child { padding: 8px 4px; }
+.developer-workspace-agent.is-navigation-collapsed .developer-back-button { justify-content: center; gap: 0; overflow: hidden; padding: 0; font-size: 0; }
+.developer-workspace-agent.is-navigation-collapsed .developer-user-button { justify-content: center; padding: 4px; }
+.developer-workspace-agent.is-navigation-collapsed .developer-user-button > div:not(:first-child), .developer-workspace-agent.is-navigation-collapsed .developer-user-button > svg, .developer-workspace-agent.is-navigation-collapsed .developer-navigation-toggle > span { display: none; }
+.developer-workspace-agent.is-navigation-collapsed .developer-navigation-toggle { justify-content: center; padding: 0; }
+
+
+.developer-workspace button {
+  transition: color 180ms ease, background-color 180ms ease,
+    border-color 180ms ease, box-shadow 180ms ease, transform 120ms ease;
+}
+
+.developer-workspace button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.developer-workspace :is(button, input, select):focus-visible {
+  outline: 2px solid rgba(36, 31, 125, 0.45);
+  outline-offset: 2px;
+}
+
+.developer-workspace :is(input, textarea) {
+  transition: border-color 180ms ease, box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+.developer-workspace :is(input, textarea):focus {
+  box-shadow: 0 0 0 3px rgba(36, 31, 125, 0.08);
+}
+
+.developer-workspace ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.developer-workspace ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.developer-workspace ::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #d4d4d8;
+}
+
+.developer-workspace ::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .developer-workspace *,
+  .developer-workspace *::before,
+  .developer-workspace *::after {
+    transition: none !important;
+  }
+}
+
+.developer-workspace-agent.is-navigation-collapsed .developer-account-row { flex-direction: column; gap: 3px; }
+.developer-workspace-agent.is-navigation-collapsed .developer-account-row > .developer-user-button { flex: none; width: 48px; }

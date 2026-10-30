@@ -6,10 +6,18 @@ import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import './IndustrialSceneHero.css';
-import { buildWarehouse, finishModel, rigMCR, MCR_HOME, CNC_STATIONS, MCR_STATIONS, RACK_STATIONS, ROBOT_BASE_LENGTH } from './warehouseScene';
+import { buildFactoryScenario, FACTORY_SCENARIOS, type FactoryAsset, type FactoryScenario } from './factoryScenarios';
+import { populateFactoryScenario } from './factorySceneModels';
 
-const AGV_SPEED = 0.6;
 type SceneStatus = 'loading' | 'ready' | 'fallback';
+
+function scenePreview() {
+  const query = new URLSearchParams(window.location.search);
+  const scenario = FACTORY_SCENARIOS.find(item => item.id === query.get('factoryScene'))?.id ?? 'delivery';
+  const value = query.get('factoryTime');
+  const time = value !== null && Number.isFinite(Number(value)) ? THREE.MathUtils.clamp(Number(value), 0, 180) : null;
+  return { scenario, time };
+}
 
 function disposeScene(root: THREE.Object3D) {
   const geometries = new Set<THREE.BufferGeometry>();
@@ -30,8 +38,10 @@ function disposeScene(root: THREE.Object3D) {
 }
 
 export function IndustrialSceneHero() {
+  const initialPreview = useRef(scenePreview());
+  const [scenario, setScenario] = useState<FactoryScenario>(initialPreview.current.scenario);
   const hostRef = useRef<HTMLDivElement>(null);
-  const playRef = useRef(!window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const playRef = useRef(initialPreview.current.time === null && !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const resetRef = useRef<() => void>(() => undefined);
   const [status, setStatus] = useState<SceneStatus>('loading');
   const [playing, setPlaying] = useState(playRef.current);
@@ -49,6 +59,7 @@ export function IndustrialSceneHero() {
     let disposed = false;
     let visible = true;
     let frame = 0;
+    const startTime = scenario === initialPreview.current.scenario ? initialPreview.current.time ?? 0 : 0;
     let elapsed = 0;
     let ready = false;
     setStatus('loading');
@@ -103,10 +114,8 @@ export function IndustrialSceneHero() {
       stage = new THREE.Group();
       scene.add(stage);
       stage.visible = false;
-      const { routes, parcels } = buildWarehouse(stage);
-      const mcrActors: { station: THREE.Group; pose: (degrees: number[]) => void; origin: THREE.Vector3; destination: THREE.Vector3 }[] = [];
-      const carriers = [new THREE.Group(), new THREE.Group(), new THREE.Group()];
-      carriers.forEach((carrier) => stage?.add(carrier));
+      const layout = buildFactoryScenario(stage, scenario);
+      let updateScene = (_seconds: number) => undefined;
       const render = () => renderer?.render(scene!, camera);
       controls = new OrbitControls(camera, canvas);
       controls.target.set(0, 1, 0);
@@ -145,27 +154,7 @@ export function IndustrialSceneHero() {
       resizeObserver.observe(host);
       resize();
       const setPose = () => {
-        routes.forEach((route, index) => {
-          const progress = (elapsed * AGV_SPEED / route.getLength() + index / carriers.length) % 1;
-          const point = route.getPointAt(progress);
-          const tangent = route.getTangentAt(progress);
-          carriers[index].position.copy(point);
-          carriers[index].position.y = 0;
-          // The model's front sensor is on local -X; align that axis with travel.
-          carriers[index].rotation.y = Math.atan2(tangent.x, tangent.z) + Math.PI / 2;
-        });
-        // Stop the base before arm work, return to Home before driving again.
-        const cycle = elapsed % 24;
-        const smooth = (t: number) => { const u = THREE.MathUtils.clamp(t, 0, 1); return u * u * (3 - 2 * u); };
-        const travel = cycle < 2 ? 0 : cycle < 7 ? smooth((cycle - 2) / 5) : cycle < 15 ? 1 : cycle < 20 ? 1 - smooth((cycle - 15) / 5) : 0;
-        const reach = cycle < 8 ? 0 : cycle < 10 ? smooth((cycle - 8) / 2) : cycle < 12 ? 1 : cycle < 14 ? 1 - smooth((cycle - 12) / 2) : 0;
-        const outboundTurn = cycle < 1 ? 0 : cycle < 2 ? smooth(cycle - 1) : cycle < 7 ? 1 : cycle < 8 ? 1 - smooth(cycle - 7) : 0;
-        mcrActors.forEach(({ station, pose, origin, destination }) => {
-          station.position.lerpVectors(origin, destination, travel);
-          if (origin.distanceToSquared(destination) > 0) station.rotation.y = Math.PI * outboundTurn;
-          pose(MCR_HOME.map((angle, i) => angle + [35, -28, -40, 30, 18, -35][i] * reach));
-        });
-        parcels.forEach((parcel, i) => { parcel.position.x = -9.8 + ((elapsed * 0.22 + i * 2.1) % 6.4); });
+        updateScene(elapsed);
         render();
       };
       resetRef.current = () => { elapsed = 0; lastFrame = 0; controls?.reset(); resize(); setPose(); };
@@ -185,57 +174,21 @@ export function IndustrialSceneHero() {
       draco.preload();
       const loader = new GLTFLoader();
       loader.setDRACOLoader(draco);
-      Promise.all(['agv', 'cnc', 'mcr', 'factory-rack', 'factory-server'].map(async (name) => {
+      const assets = new Set<FactoryAsset>(layout.placements.map(placement => placement.asset));
+      if (layout.agvRoutes.length) assets.add('agv');
+      layout.robotTasks.forEach(task => assets.add(task.asset));
+      const loadedModels: THREE.Group[] = [];
+      Promise.all([...assets].map(async name => {
         const { scene: model } = await loader.loadAsync(`${import.meta.env.BASE_URL}models/${name}.glb`);
-        if (disposed) { disposeScene(model); return; }
-        if (name === 'agv') {
-          finishModel(model, ROBOT_BASE_LENGTH, model);
-          carriers.forEach((carrier, i) => carrier.add(i === 0 ? model : model.clone(true)));
-        } else if (name === 'cnc') {
-          finishModel(model, 2.85);
-          CNC_STATIONS.forEach(([x, z, yaw], i) => {
-            const bay = new THREE.Group(); bay.position.set(x, 0, z); bay.rotation.y = yaw;
-            bay.add(i === 0 ? model : model.clone(true)); stage!.add(bay);
-          });
-        } else if (name === 'factory-rack') {
-          finishModel(model, 2.65);
-          RACK_STATIONS.forEach(([x, z, yaw], i) => {
-            const station = new THREE.Group(); station.name = 'Blender V7 material rack'; station.position.set(x, 0, z); station.rotation.y = yaw;
-            station.add(i === 0 ? model : model.clone(true)); stage!.add(station);
-          });
-        } else if (name === 'factory-server') {
-          finishModel(model, 2.35);
-          let index = 0;
-          for (const x of [-9.1, -5.3, -1.5]) for (const dx of [-0.9, 0.9]) for (const dz of [-1.15, 0, 1.15]) {
-            const cabinet = new THREE.Group(); cabinet.position.set(x + dx, 0.18, -6.45 + dz);
-            cabinet.rotation.y = dx < 0 ? Math.PI / 2 : -Math.PI / 2;
-            cabinet.add(index++ === 0 ? model : model.clone(true)); stage!.add(cabinet);
-          }
-        } else {
-          // Source export contains one detached PCB roughly 85 m outside the robot.
-          // Exclude that export artifact so it cannot distort the robot bounds.
-          let detachedBoard: THREE.Object3D | undefined;
-          model.traverse((node) => { if (node.name.startsWith('Radar') && node.name.includes('BoardAndModels')) detachedBoard = node; });
-          if (detachedBoard) { detachedBoard.removeFromParent(); disposeScene(detachedBoard); }
-          rigMCR(model);
-          // Match the same chassis footprint as AGV; arm reach must not shrink the base.
-          let chassis: THREE.Object3D | undefined;
-          model.traverse(node => { if (node.name.replace(/[._]/g, '') === 'Mesh18001') chassis = node; });
-          if (!chassis) throw new Error('MCR 底盘参考网格缺失');
-          finishModel(model, ROBOT_BASE_LENGTH, chassis);
-          MCR_STATIONS.forEach(([x, z], i) => {
-            const robot = i === 0 ? model : model.clone(true);
-            const station = new THREE.Group(); station.position.set(x, 0, z);
-            station.add(robot); stage!.add(station);
-            const origin = station.position.clone();
-            // Front and left service corridors have room for base travel; the CNC aisle robot stays docked.
-            const destination = origin.clone().add(new THREE.Vector3([4, 0, 2.6][i], 0, 0));
-            mcrActors.push({ station, pose: rigMCR(robot), origin, destination });
-          });
-        }
-        setPose();
-      })).then(() => { if (!disposed) { elapsed = 0; lastFrame = 0; ready = true; stage!.visible = true; setPose(); setStatus('ready'); } }).catch((error) => {
-        console.error('无法加载仓储设备模型', error);
+        if (disposed) { disposeScene(model); return undefined; }
+        loadedModels.push(model);
+        return [name, model] as const;
+      })).then(entries => {
+        if (disposed) return;
+        updateScene = populateFactoryScenario(stage!, layout, new Map(entries.filter(entry => !!entry))).update;
+        elapsed = startTime; lastFrame = 0; ready = true; stage!.visible = true; setPose(); setStatus('ready');
+      }).catch(error => {
+        console.error('无法加载工厂设备模型', error);
         if (!disposed) setStatus('fallback');
       });
       const onContextLost = (event: Event) => { event.preventDefault(); cancelAnimationFrame(frame); visible = false; setStatus('fallback'); };
@@ -250,6 +203,7 @@ export function IndustrialSceneHero() {
         canvas.removeEventListener('webglcontextlost', onContextLost);
         resetRef.current = () => undefined;
         if (stage) disposeScene(stage);
+        loadedModels.filter(model => !model.parent).forEach(disposeScene);
         environment?.dispose();
         draco?.dispose();
         renderer?.dispose();
@@ -267,17 +221,31 @@ export function IndustrialSceneHero() {
       renderer?.domElement.remove();
       document.removeEventListener('visibilitychange', onVisibility);
     }
-  }, []);
+  }, [scenario]);
 
   return (
-    <div className={`industrial-scene industrial-scene--${status}`} aria-busy={status === 'loading'} aria-label="CNC、AGV 与 MCR 协同仓储场景">
-      <div className="industrial-scene__canvas" ref={hostRef} aria-hidden="true" />
+    <div className={`industrial-scene industrial-scene--${status}`} aria-busy={status === 'loading'} aria-label={`${FACTORY_SCENARIOS.find(item => item.id === scenario)!.title}三维场景`}>
+      <div id="factory-scene-panel" role="tabpanel" aria-labelledby={`scene-tab-${scenario}`} className="industrial-scene__canvas" ref={hostRef} />
       {status !== 'ready' && (
         <div className="industrial-scene__fallback" role="status">
           <span>{status === 'loading' ? '正在加载场景…' : '场景加载失败，请刷新重试'}</span>
         </div>
       )}
-      <div className="industrial-scene__caption"><strong>柔性制造车间</strong></div>
+      <div className="industrial-scene__tabs" role="tablist" aria-label="工业应用场景">
+        {FACTORY_SCENARIOS.map((item, index) => <button
+          key={item.id} id={`scene-tab-${item.id}`} type="button" role="tab"
+          aria-selected={scenario === item.id} aria-controls="factory-scene-panel" tabIndex={scenario === item.id ? 0 : -1}
+          onClick={() => setScenario(item.id)}
+          onKeyDown={event => {
+            const offset = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+            if (!offset && event.key !== 'Home' && event.key !== 'End') return;
+            event.preventDefault();
+            const next = event.key === 'Home' ? 0 : event.key === 'End' ? FACTORY_SCENARIOS.length - 1 : (index + offset + FACTORY_SCENARIOS.length) % FACTORY_SCENARIOS.length;
+            setScenario(FACTORY_SCENARIOS[next].id);
+            document.getElementById(`scene-tab-${FACTORY_SCENARIOS[next].id}`)?.focus();
+          }}
+        >{item.title}</button>)}
+      </div>
       <div className="industrial-scene__controls" aria-label="场景播放控制">
         <button type="button" onClick={() => { playRef.current = !playRef.current; setPlaying(playRef.current); }} aria-label={playing ? '暂停场景动画' : '播放场景动画'} aria-pressed={!playing} disabled={status !== 'ready'}>{playing ? <Pause size={15} fill="currentColor" /> : <Play size={15} fill="currentColor" />}{playing ? '暂停' : '播放'}</button>
         <button type="button" onClick={() => resetRef.current()} aria-label="重置场景动画" disabled={status !== 'ready'}><RotateCcw size={15} /></button>

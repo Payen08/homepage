@@ -1,0 +1,256 @@
+/* All four management pages share the extension center's page and list rhythm. */
+.aw-management-main { scrollbar-gutter: stable; }
+.aw-management-page {
+  --aw-management-divider: #eeeeef;
+  --aw-management-row-space: 22px;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 34px 40px 30px;
+}
+.aw-management-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; margin: 0 0 32px; }
+.aw-management-heading > div:first-child { min-width: 0; }
+.aw-management-heading h1 { color: #333; font-size: 26px; font-weight: 600; line-height: 1.4; letter-spacing: -.5px; }
+.aw-management-title-back { display: inline-grid; place-items: center; width: 30px; height: 30px; margin: 0 8px 0 -6px; padding: 0; border: 0; border-radius: 8px; color: #777; background: transparent; vertical-align: 2px; }
+.aw-management-title-back:hover { color: #333; background: #f3f3f5; }
+.aw-management-heading p { margin-top: 6px; color: #666; font-size: 13px; line-height: 1.7; }
+.aw-management-heading-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; flex-shrink: 0; gap: 10px; padding-top: 5px; }
+.aw-management-heading-actions .aw-extension-heading-actions { padding-top: 0; }
+.aw-management-page .aw-button { min-height: 34px; border-radius: 9px; font-size: 12px; }
+.aw-management-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; margin: 0 0 22px; padding: 0 0 20px; border-bottom: 1px solid var(--aw-management-divider); }
+.aw-management-tabs { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
+.aw-management-tabs > button { display: flex; align-items: center; gap: 7px; min-height: 38px; padding: 8px 12px; border: 0; border-radius: 9px; background: transparent; color: #666; font-size: 13px; line-height: 1.6; white-space: nowrap; }
+.aw-management-tabs > button > span { color: #999; font-size: 12px; font-variant-numeric: tabular-nums; }
+.aw-management-tabs > button:hover, .aw-management-tabs > button.is-selected { background: #f3f3f5; color: #333; }
+.aw-management-toolbar > select, .aw-management-page .aw-extension-search { min-height: 38px; border: 1px solid #e1e2e8; border-radius: 10px; color: #666; background: #fff; font-size: 12px; }
+.aw-management-toolbar > select { max-width: 300px; padding: 8px 12px; text-overflow: ellipsis; }
+.aw-management-page .aw-extension-context { margin: -8px 0 24px; }
+.aw-management-page .aw-extension-toolbar { margin-top: 0; }
+.aw-management-section { margin-top: 32px; }
+.aw-management-section-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 34px; padding-bottom: 16px; border-bottom: 1px solid var(--aw-management-divider); }
+.aw-management-section-heading h2, .aw-management-page .aw-settings-surface h2 { color: #333; font-size: 15px; font-weight: 550; line-height: 1.5; }
+.aw-management-section-heading > span { color: #999; font-size: 11px; }
+.aw-management-list { padding-top: 4px; }
+.aw-management-row { display: flex; align-items: center; gap: 18px; min-height: 108px; padding: var(--aw-management-row-space) 0; border-bottom: 1px solid #f1f1f3; }
+.aw-management-row-icon { display: grid; place-items: center; width: 48px; height: 48px; flex-shrink: 0; border: 1px solid #e7e7eb; border-radius: 50%; color: #666; background: #fff; }
+.aw-management-row-copy { flex: 1; min-width: 0; }
+.aw-management-row-copy h2, .aw-management-row-copy h3 { color: #333; font-size: 15px; font-weight: 550; line-height: 1.5; }
+.aw-management-row-copy p { margin-top: 5px; color: #666; font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+.aw-management-row-copy > small { display: block; margin-top: 5px; color: #999; font-size: 10px; }
+.aw-management-row-actions { display: flex; align-items: center; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; gap: 18px; }
+.aw-management-inline-empty { padding: 35px 20px; color: #999; font-size: 12px; text-align: center; border-bottom: 1px solid #f1f1f3; }
+.aw-management-page .aw-empty { min-height: 280px; padding: 70px 20px; gap: 10px; }
+.aw-management-page .aw-empty-icon { width: 48px; height: 48px; border: 1px solid #e7e7eb; border-radius: 50%; background: #fff; color: #999; }
+.aw-management-page .aw-empty h2 { font-size: 15px; font-weight: 550; }
+.aw-management-page .aw-empty p { color: #999; font-size: 12px; }
+
+/* Settings use the same open rows and dividers as installed extensions. */
+.aw-management-page .aw-model-settings, .aw-management-page .aw-connections-settings { max-width: none; }
+.aw-management-page .aw-settings-surface { margin-bottom: 32px; padding: 0; border: 0; border-radius: 0; background: transparent; }
+.aw-management-page .aw-settings-surface > h2 { padding-bottom: 16px; border-bottom: 1px solid var(--aw-management-divider); }
+.aw-management-page .aw-settings-surface > p { margin: 10px 0 16px; color: #666; font-size: 12px; }
+.aw-management-page .aw-setting-row { min-height: 92px; padding: 22px 0; border-color: #f1f1f3; }
+.aw-management-page .aw-setting-row:last-child { padding-bottom: 22px; }
+.aw-management-page .aw-setting-row strong { color: #333; font-size: 14px; font-weight: 500; }
+.aw-management-page .aw-setting-row p { margin-top: 5px; color: #666; font-size: 12px; line-height: 1.7; }
+.aw-management-page .aw-setting-row > span { color: #666; font-size: 12px; }
+.aw-management-page .aw-setting-row > span.aw-badge { color: #625b97; font-size: 10px; }
+.aw-management-page .aw-connections-settings { gap: 0; }
+.aw-management-page .aw-connections-heading { padding-bottom: 16px; border-bottom: 1px solid var(--aw-management-divider); }
+.aw-management-page .aw-connection-device-list { margin-top: 4px; }
+.aw-management-page .aw-connection-device-row { min-height: 108px; gap: 18px; padding: 22px 0; border-color: #f1f1f3; }
+.aw-management-page .aw-connection-device-row strong { color: #333; font-size: 15px; font-weight: 550; }
+.aw-management-page .aw-connection-device-row p { margin-top: 5px; color: #666; font-size: 12px; line-height: 1.7; }
+.aw-management-page .aw-connection-device-row small { display: block; margin-top: 5px; color: #999; font-size: 10px; }
+.aw-management-page .aw-model-presets-heading { margin-bottom: 16px; }
+.aw-management-page .aw-model-presets-heading h3 { color: #333; font-size: 15px; font-weight: 550; }
+.aw-management-page .aw-model-preset { padding: 16px; border-radius: 10px; }
+.aw-management-page .aw-model-preset strong { font-size: 13px; }
+.aw-management-page .aw-model-configuration { margin-top: 32px; border: 0; border-radius: 0; background: transparent; }
+.aw-management-page .aw-model-form-heading { padding: 0 0 16px; border-color: var(--aw-management-divider); }
+.aw-management-page .aw-model-form-heading h3 { font-size: 15px; font-weight: 550; }
+.aw-management-page .aw-model-form { padding: 22px 0; gap: 20px; }
+.aw-management-page .aw-form > label, .aw-management-page .aw-form-grid > label { font-size: 12px; }
+.aw-management-page .aw-form input:not([type='checkbox']), .aw-management-page .aw-form select { min-height: 38px; border-radius: 10px; font-size: 13px; }
+.aw-management-page .aw-model-form-footer { padding: 16px 0; background: transparent; border-color: var(--aw-management-divider); }
+.aw-management-page .aw-usage-grid { gap: 24px; margin-bottom: 32px; }
+.aw-management-page .aw-usage-grid > div { padding: 16px 0 22px; border: 0; border-bottom: 1px solid var(--aw-management-divider); border-radius: 0; background: transparent; }
+.aw-management-page .aw-usage-grid span { color: #666; font-size: 12px; }
+.aw-management-page .aw-usage-grid strong { color: #333; font-size: 26px; }
+.aw-management-page .aw-usage-log > div { min-height: 72px; padding: 18px 0; color: #666; font-size: 12px; }
+.aw-management-page .aw-usage-log > div small { font-size: 10px; }
+
+/* Review content stays readable while sharing the extension list's outer rows. */
+.aw-reviews-page .aw-review-list { gap: 28px; }
+.aw-reviews-page .aw-review-source { margin: 0 0 10px; font-size: 11px; }
+.aw-reviews-page .aw-review-source > button { color: #666; }
+.aw-reviews-page .aw-review-source > small { font-size: 10px; }
+.aw-reviews-page .aw-call-card, .aw-reviews-page .aw-change-card { border: 0; border-bottom: 1px solid var(--aw-management-divider); border-radius: 0; background: transparent; }
+.aw-reviews-page .aw-call-heading { gap: 18px; min-height: 96px; padding: 18px 0; }
+.aw-reviews-page .aw-call-heading strong { color: #333; font-size: 15px; font-weight: 550; }
+.aw-reviews-page .aw-call-heading > span:nth-child(2) > small { margin-top: 5px; color: #666; font-size: 12px; }
+.aw-reviews-page .aw-call-icon { display: grid; place-items: center; flex-shrink: 0; width: 48px; height: 48px; border: 1px solid #e7e7eb; border-radius: 50%; background: #fff; }
+.aw-reviews-page .aw-call-icon > svg { width: 20px; height: 20px; }
+.aw-reviews-page .aw-call-details { padding: 18px 0 22px 66px; color: #666; font-size: 12px; }
+.aw-reviews-page .aw-detail-label { font-size: 11px; }
+.aw-reviews-page .aw-call-details > pre { font-size: 11px; border-radius: 9px; }
+.aw-reviews-page .aw-change-heading { min-height: 52px; padding: 12px 0; background: transparent; }
+.aw-reviews-page .aw-change-heading > button > span { color: #333; font-size: 13px; }
+.aw-reviews-page .aw-diff-toolbar { padding: 10px 12px; }
+.aw-reviews-page .aw-change-actions { padding: 14px 0; }
+
+.aw-tiangong-entry { margin-bottom: 18px; padding-bottom: 22px; border-bottom: 1px solid var(--aw-management-divider); }
+.aw-tiangong-link-dialog { width: min(680px, calc(100vw - 32px)); }
+.aw-tiangong-link-dialog .aw-modal-body { display: grid; gap: 18px; }
+.aw-tiangong-section-description { margin: 0 0 16px; color: #666; font-size: 12px; line-height: 1.8; }
+.aw-tiangong-service-status { margin: 12px 0 18px; padding: 0 14px; border: 1px solid #e7e7ec; border-radius: 10px; background: #fafafa; font-size: 11px; }
+.aw-tiangong-service-status > summary { display: flex; align-items: center; gap: 10px; justify-content: space-between; padding: 12px 0; color: #666; cursor: pointer; }
+.aw-tiangong-service-status > summary > span { color: #999; font-size: 10px; }
+.aw-tiangong-service-status > div { padding: 0 0 10px; }
+.aw-tiangong-service-status p:not(.aw-field-help) { display: flex; align-items: center; gap: 9px; padding: 7px 0; color: #666; }
+.aw-tiangong-service-status p > small { margin-left: auto; color: #999; }
+.aw-tiangong-service-status .aw-field-help { margin-top: 10px; font-size: 10px; line-height: 1.8; }
+.aw-tiangong-dialog-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #999; font-size: 11px; }
+.aw-tiangong-back { justify-self: start; }
+.aw-tiangong-empty { display: grid; justify-items: center; gap: 12px; padding: 35px 22px; color: #999; text-align: center; }
+.aw-tiangong-empty strong { color: #333; font-size: 15px; font-weight: 500; }
+.aw-tiangong-empty p { max-width: 330px; font-size: 12px; line-height: 1.8; }
+.aw-tiangong-picker-list { display: grid; gap: 12px; }
+.aw-tiangong-picker-list > article { padding: 15px; border: 1px solid #e5e5eb; border-radius: 10px; }
+.aw-tiangong-resource-title { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; color: #666; }
+.aw-tiangong-resource-title strong { flex: 1; min-width: 100px; color: #333; font-size: 13px; font-weight: 500; }
+.aw-tiangong-picker-list article > p { margin: 10px 0 5px; color: #666; font-size: 11px; overflow-wrap: anywhere; }
+.aw-tiangong-picker-list article > small { color: #999; font-size: 10px; }
+.aw-tiangong-resource-options { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 18px; margin-top: 12px; font-size: 10px; color: #999; }
+.aw-tiangong-resource-options label { display: flex; align-items: center; gap: 6px; color: #666; }
+.aw-tiangong-resource-options .aw-button { min-height: 25px; padding: 4px 0; font-size: 10px; }
+.aw-tiangong-prototype-note { display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap; padding: 14px; border: 1px solid #e3e0f1; border-radius: 10px; background: #faf9ff; color: #666; font-size: 11px; line-height: 1.8; }
+.aw-tiangong-prototype-note > svg { flex-shrink: 0; margin-top: 3px; color: #625b97; }
+.aw-tiangong-prototype-note > span { flex: 1; min-width: 180px; }
+.aw-tiangong-prototype-note strong { display: block; color: #333; font-weight: 500; }
+.aw-tiangong-prototype-note .aw-button { min-height: 28px; font-size: 10px; }
+.aw-tiangong-reuse { justify-self: start; }
+.aw-tiangong-login-proof { display: flex; align-items: flex-start; gap: 10px; padding: 12px; border: 1px solid #dcece4; border-radius: 10px; background: #f6faf8; color: #34806b; }
+.aw-tiangong-login-proof > div { flex: 1; min-width: 0; }
+.aw-tiangong-login-proof strong { font-size: 12px; font-weight: 500; }
+.aw-tiangong-login-proof p { margin-top: 5px; color: #666; font-size: 11px; overflow-wrap: anywhere; }
+.aw-tiangong-park-list { border: 1px solid #e5e5eb; border-radius: 10px; overflow: hidden; }
+.aw-tiangong-park-list > label { display: flex; align-items: center; gap: 10px; padding: 16px; border-bottom: 1px solid #eeeef1; color: #666; cursor: pointer; }
+.aw-tiangong-park-list > label:last-child { border-bottom: 0; }
+.aw-tiangong-park-list label > span:first-of-type { flex: 1; }
+.aw-tiangong-park-list strong { display: block; color: #333; font-size: 13px; font-weight: 500; }
+.aw-tiangong-park-list small { display: block; margin-top: 6px; color: #999; font-size: 10px; }
+.aw-tiangong-link-dialog input[type='checkbox'], .aw-tiangong-link-dialog input[type='radio'], .aw-resource-association-dialog input[type='checkbox'], .aw-resource-association-dialog input[type='radio'] { width: 14px; height: 14px; min-height: 14px; flex: 0 0 14px; margin: 0; padding: 0; accent-color: #29227e; }
+.aw-resource-association-dialog { overflow: hidden; }
+ .aw-resource-association-dialog > .aw-modal-body { max-height: calc(90dvh - 102px); overflow-y: auto; padding-bottom: 28px; }
+.aw-resource-editor-dialog { width: min(560px, calc(100vw - 40px)); }
+.aw-resource-editor-dialog .aw-modal-body { max-height: calc(90dvh - 178px); overflow-y: auto; }
+.aw-park-picker-heading { margin-top: 26px; }
+.aw-park-connection-row { align-items: center; }
+.aw-tiangong-account-card { display: flex; align-items: center; gap: 12px; padding: 16px; border: 1px solid #e5e5eb; border-radius: 10px; }
+.aw-tiangong-account-card > svg { color: #999; flex-shrink: 0; }
+.aw-tiangong-account-card > div { flex: 1; }
+.aw-tiangong-account-card strong { color: #333; font-size: 12px; font-weight: 500; }
+.aw-tiangong-account-card p { margin-top: 3px; color: #999; font-size: 11px; }
+.aw-resource-list-empty { padding: 18px; border: 1px solid #e5e5ec; border-radius: 10px; color: #999; text-align: center; font-size: 11px; }
+.aw-resource-add-wrap { position: relative; }
+.aw-resource-add-menu, .aw-resource-menu-popup { position: absolute; z-index: 42; right: 0; min-width: 190px; padding: 5px; border: 1px solid #e5e5eb; border-radius: 10px; background: #fff; box-shadow: 0 10px 28px #22223312; }
+.aw-resource-add-menu { bottom: calc(100% + 8px); }
+.aw-resource-add-menu > button, .aw-resource-menu-popup > button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 9px 10px; border: 0; border-radius: 6px; background: transparent; color: #666; text-align: left; white-space: nowrap; font-size: 11px; }
+.aw-resource-add-menu > button:hover, .aw-resource-menu-popup > button:hover { background: #f5f4fa; color: #333; }
+.aw-task-resource-menu { position: relative; }
+.aw-resource-menu-popup { top: calc(100% + 8px); }
+.aw-task-resource-label { display: flex; align-items: center; gap: 5px; padding: 4px 7px; border-radius: 6px; background: #f5f5f7; color: #666; font-size: 10px; white-space: nowrap; }
+.aw-builtin-readonly { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid #eeeef1; font-size: 12px; color: #999; }
+.aw-builtin-readonly strong { flex: 1; color: #333; font-weight: 500; }
+.aw-builtin-readonly > span { width: 78px; }
+.aw-builtin-readonly small { font-size: 10px; color: #999; }
+.aw-builtin-system-dialog .aw-setting-row strong { color: #333; font-size: 12px; font-weight: 500; }
+.aw-builtin-system-dialog .aw-setting-row p { margin-top: 5px; color: #999; font-size: 11px; }
+.aw-builtin-system-dialog .aw-setting-row { min-height: 78px; padding: 16px 0; }
+.aw-tiangong-park-list > label > svg { flex: 0 0 18px; }
+.aw-tiangong-park-list label > span:first-of-type { min-width: 0; }
+.aw-tiangong-entry .aw-management-row { border-bottom: 0; padding-top: 8px; }
+.aw-mcp-service-item { padding-bottom: 18px; border-bottom: 1px solid var(--aw-management-divider); }
+.aw-mcp-service-item .aw-management-row { border-bottom: 0; }
+.aw-mcp-tool-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 0 0 4px 66px; }
+.aw-mcp-capability-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0 0 4px 66px; }
+.aw-mcp-capability-grid-modal { grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; }
+.aw-mcp-transport-switch { width: max-content; margin-top: 2px; }
+.aw-mcp-tool-option, .aw-mcp-capability-switch { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 48px; padding: 9px 12px; border: 1px solid #ececf0; border-radius: 10px; color: #555; background: #fbfbfc; cursor: pointer; }
+.aw-mcp-tool-option:hover, .aw-mcp-capability-switch:hover { border-color: #d9d6e8; background: #f8f7fc; }
+.aw-mcp-tool-option input, .aw-mcp-capability-switch input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.aw-mcp-tool-label, .aw-mcp-capability-switch > span:first-child { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.aw-mcp-tool-label > span, .aw-mcp-capability-switch > span:first-child { display: grid; gap: 2px; }
+.aw-mcp-tool-label strong, .aw-mcp-capability-switch strong { color: #444; font-size: 12px; font-weight: 550; }
+.aw-mcp-tool-label small, .aw-mcp-capability-switch small { color: #999; font-size: 10px; }
+.aw-mcp-capability-fieldset { display: grid; gap: 8px; min-width: 0; padding: 0; margin: 0; border: 0; }
+.aw-mcp-capability-fieldset legend { margin-bottom: 2px; color: #666; font-size: 11px; }
+.aw-mcp-test-success { padding: 12px; color: #258467; background: #f2faf6; border-radius: 8px; line-height: 1.8; }
+.aw-business-capabilities > details { border-top: 1px solid #eeeef1; }
+.aw-business-capabilities > details > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; color: #333; cursor: pointer; }
+.aw-business-capabilities summary > span { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.aw-business-capabilities summary strong { font-size: 12px; font-weight: 500; }
+.aw-business-capabilities summary small { color: #999; font-size: 10px; }
+.aw-business-capabilities summary > label { position: relative; display: flex; cursor: pointer; }
+.aw-business-capabilities summary input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.aw-business-capabilities summary input:focus-visible + .aw-toggle { outline: 2px solid #8279cf; outline-offset: 3px; }
+.aw-business-capabilities details > p { margin: 0 0 12px; color: #666; font-size: 11px; line-height: 1.8; }
+.aw-capability-knowledge { display: grid; gap: 6px; margin-bottom: 12px; color: #666; font-size: 11px; line-height: 1.8; }
+.aw-capability-knowledge strong { font-weight: 500; color: #333; }
+.aw-capability-api-list { max-height: 260px; overflow-y: auto; margin-bottom: 14px; border: 1px solid #e5e5ed; border-radius: 8px; }
+.aw-capability-api-list > div { display: flex; align-items: flex-start; gap: 9px; padding: 10px; border-bottom: 1px solid #eeeef1; }
+.aw-capability-api-list > div:last-child { border-bottom: 0; }
+.aw-capability-api-list > div > code { min-width: 42px; font-size: 10px; color: #625b97; }
+.aw-capability-api-list > div > span { flex: 1; min-width: 0; }
+.aw-capability-api-list > div > span > code { display: block; color: #333; font-size: 10px; overflow-wrap: anywhere; }
+.aw-capability-api-list small { display: block; margin-top: 5px; color: #999; font-size: 10px; line-height: 1.6; }
+.aw-capability-api-list > div > small { margin-top: 0; white-space: nowrap; }
+.aw-business-diff { margin: 0 0 18px; overflow: hidden; border: 1px solid #e1e2e8; border-radius: 9px; background: #fff; }
+.aw-business-diff > header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px; background: #f8f8fb; }
+.aw-business-diff > header > span { display: flex; align-items: center; gap: 7px; color: #333; font-weight: 500; }
+.aw-business-diff > header small { margin-left: auto; color: #999; font-size: 10px; }
+.aw-business-diff > header .aw-button { min-height: 28px; padding: 5px 9px; font-size: 11px; }
+.aw-business-diff-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.aw-business-diff-columns > div { min-width: 0; background: #fbfbfd; }
+.aw-business-diff-columns > div + div { border-left: 1px solid #e1e2e8; background: #f2faf6; }
+.aw-business-diff-columns h4 { margin: 0; padding: 8px 12px; border-top: 1px solid #e1e2e8; border-bottom: 1px solid #e1e2e8; color: #666; font-size: 11px; font-weight: 500; }
+.aw-business-diff-columns pre, .aw-business-diff-columns textarea { display: block; width: 100%; height: 260px; max-height: 340px; padding: 12px; margin: 0; border: 0; border-radius: 0; background: transparent; color: #333; font: 11px/1.8 ui-monospace, SFMono-Regular, Consolas, monospace; overflow: auto; white-space: pre; tab-size: 2; }
+.aw-business-diff-columns textarea { resize: vertical; outline-offset: -2px; }
+.aw-business-diff > .aw-checkbox-label, .aw-business-diff > p { margin: 0; padding: 12px; border-top: 1px solid #e1e2e8; color: #666; line-height: 1.7; font-size: 11px; }
+.aw-business-diff > .aw-inline-warning { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin: 0; padding: 12px; }
+
+@media (max-width: 1200px) {
+  .aw-management-page { padding: 28px; }
+  .aw-management-heading { flex-direction: column; gap: 16px; }
+  .aw-management-heading-actions { justify-content: flex-start; padding-top: 0; }
+  .aw-management-heading-actions .aw-extension-heading-actions { justify-content: flex-start; }
+}
+@media (max-width: 760px) {
+  .aw-management-page { padding: 22px 18px; }
+  .aw-management-heading { margin-bottom: 26px; }
+  .aw-management-toolbar { align-items: flex-start; gap: 14px; }
+  .aw-management-toolbar > select, .aw-management-page .aw-extension-search { width: 100%; max-width: none; }
+  .aw-management-row { flex-wrap: wrap; gap: 12px; }
+  .aw-management-row-icon { width: 38px; height: 38px; }
+  .aw-management-row-copy { flex-basis: calc(100% - 50px); }
+  .aw-management-row-actions { margin-left: 50px; gap: 12px; }
+  .aw-extension-row.aw-management-row { flex-wrap: nowrap; }
+  .aw-extension-row .aw-management-row-copy { flex-basis: 0; }
+  .aw-extension-row .aw-management-row-actions { margin-left: 0; }
+  .aw-management-page .aw-connection-device-row { flex-wrap: wrap; gap: 12px; }
+  .aw-management-page .aw-connection-device-row > div { flex-basis: calc(100% - 50px); }
+  .aw-management-page .aw-connection-device-row > .aw-connection-status { margin-left: 50px; }
+  .aw-management-page .aw-setting-row { gap: 16px; }
+  .aw-management-page .aw-setting-row > span { max-width: 45%; text-align: right; }
+  .aw-reviews-page .aw-call-details { padding-left: 0; }
+  .aw-mcp-tool-options { margin-left: 0; }
+  .aw-mcp-capability-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-left: 0; }
+  .aw-mcp-capability-grid-modal { grid-template-columns: minmax(0, 1fr); }
+  .aw-tiangong-entry > .aw-field-help { margin-left: 0; }
+  .aw-business-diff-columns { grid-template-columns: minmax(0, 1fr); }
+  .aw-business-diff-columns > div + div { border-left: 0; }
+}
+
+.aw-device-connection-row small.aw-park-connection-url { margin-top: 5px; color: #666; overflow-wrap: anywhere; }
+.aw-tiangong-account-card p.aw-park-connection-url { color: #666; overflow-wrap: anywhere; }

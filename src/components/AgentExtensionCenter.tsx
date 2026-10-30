@@ -1,0 +1,38 @@
+import McpServiceDialog from './McpServiceDialog';
+import BuiltinSystemConfigurationDialog from './BuiltinSystemConfiguration';
+import { builtinSystemStatus, isPlatformAdmin, type BuiltinSystemId } from './agentBuiltinSystems';
+import { useState } from 'react';
+import { Box, Check, ChevronDown, Cpu, Layers, Plug, Plus, Search, X } from 'lucide-react';
+import { extensionConfigured, extensionEnabled, extensionItems, setExtensionEnabled, defaultExtensionPreferences, type ExtensionKind } from './agentExtensions';
+import { ManagementPage, ManagementHeading, ManagementTabs } from './AgentManagementLayout';
+import type { UpdateState, WorkbenchState } from './agentWorkbenchState';
+
+export default function AgentExtensionCenter({ state, update, createSkill, manageSkills }: { state: WorkbenchState; update: UpdateState; createSkill: () => void; manageSkills: () => void }) {
+  const [tab, setTab] = useState<ExtensionKind>('system');
+  const [query, setQuery] = useState('');
+  const [systemDialog, setSystemDialog] = useState<BuiltinSystemId | null>(null);
+  const admin = isPlatformAdmin(state);
+  const [addMenu, setAddMenu] = useState(false);
+  const [editingMcp, setEditingMcp] = useState<string | null>(null);
+  const activeTab = !admin && tab === 'mcp' ? 'system' : tab;
+  const deviceId = state.extensionPreferences?.selectedDeviceId || '';
+  const device = state.devices.find(item => item.id === deviceId);
+  const items = extensionItems(state);
+  const tabs: { id: ExtensionKind; label: string }[] = [{ id: 'system', label: '内置系统能力' }, { id: 'plugin', label: '插件' }, ...(admin ? [{ id: 'mcp' as const, label: 'MCP' }] : []), { id: 'skill', label: 'Skill' }];
+  const list = items.filter(item => item.kind === activeTab && `${item.name} ${item.description} ${item.transport || ''}`.toLowerCase().includes(query.trim().toLowerCase()));
+  return <ManagementPage className="aw-extension-page">
+    <ManagementHeading title="扩展中心" description="管理内置系统能力、插件、MCP 与 Skill"><div className="aw-extension-heading-actions">{activeTab !== 'system' && <><label className="aw-extension-device"><Cpu size={15} /><select aria-label="扩展配置设备" value={deviceId} onChange={event => update(draft => { (draft.extensionPreferences ||= defaultExtensionPreferences()).selectedDeviceId = event.target.value; })}><option value="">系统默认能力</option>{state.devices.filter(item => item.connected || item.id === deviceId).map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select><ChevronDown size={12} /></label>{device && <span className={`aw-badge ${device.connected ? 'success' : 'muted'}`}>{device.connected ? device.connection?.mode === 'simulation' ? '演示连接' : '已连接' : '已断开'}</span>}</>}{<div className="aw-extension-add"><button className="aw-button aw-primary" aria-expanded={addMenu} onClick={() => setAddMenu(!addMenu)}><Plus size={14} />添加<ChevronDown size={12} /></button>{addMenu && <><button className="aw-composer-menu-dismiss" aria-label="关闭添加扩展菜单" onClick={() => setAddMenu(false)} /><div className="aw-extension-add-menu"><button onClick={() => { setAddMenu(false); createSkill(); }}><Layers size={14} />创建 Skill</button>{admin && <button onClick={() => { setAddMenu(false); setEditingMcp('new'); }}><Plug size={14} />添加 MCP</button>}</div></>}</div>}</div></ManagementHeading>
+    {activeTab === 'system' ? <div className="aw-extension-context"><span>平台预先配置连接方式</span><p>{admin ? '管理员管理启停与业务权限；普通项目成员在项目或任务中查询具体业务资源。' : '你可以查询已授权的业务资源；修改业务内容需要管理员操作。'}</p></div> : <div className="aw-extension-context"><span>{device ? `当前设备：${device.name}` : '当前范围：系统默认'}</span><p>{device ? '此设备的能力配置独立保存，不会更改任务的设备关联。' : '设备未单独配置时沿用系统默认；设备调用仍需关联目标并获得任务授权。'}</p></div>}
+    <div className="aw-extension-toolbar aw-management-toolbar"><ManagementTabs label="扩展分类" value={activeTab} options={tabs.map(item => ({ ...item, count: items.filter(extension => extension.kind === item.id).length }))} onChange={value => setTab(value as ExtensionKind)} /><label className="aw-extension-search"><Search size={16} /><input aria-label="搜索扩展" placeholder={`搜索${tabs.find(item => item.id === activeTab)!.label}`} value={query} onChange={event => setQuery(event.target.value)} />{query && <button className="aw-icon-button" aria-label="清空扩展搜索" onClick={() => setQuery('')}><X size={13} /></button>}</label></div>
+    <div className="aw-extension-list" id="aw-extension-list" role="tabpanel" aria-label={tabs.find(item => item.id === activeTab)!.label}>{list.map(item => {
+      const Icon = item.kind === 'plugin' || item.kind === 'system' ? Box : item.kind === 'mcp' ? Plug : Layers;
+      const enabled = extensionConfigured(state, item.kind, item.id, deviceId);
+      const effective = extensionEnabled(state, item.kind, item.id, deviceId);
+      const skill = state.skills.find(skill => item.kind === 'skill' && skill.id === item.id);
+      return <article className="aw-extension-row aw-management-row" key={`${item.kind}:${item.id}`}><span className="aw-extension-icon aw-management-row-icon"><Icon size={22} strokeWidth={1.6} /></span><div className="aw-extension-description aw-management-row-copy"><div><h2>{item.name}</h2>{item.builtin && <span className="aw-extension-meta">内置</span>}{item.version && <span className="aw-extension-meta">v{item.version}</span>}{item.transport && <span className="aw-extension-meta">{item.transport}</span>}{skill?.status === 'draft' && <span className="aw-extension-meta">草稿</span>}</div><p>{item.description}</p>{item.kind === 'plugin' && <small>{item.skillCount} 个 Skill · {item.mcpCount} 个 MCP</small>}{item.pluginId && <small>来自机器人开发工具</small>}</div><div className="aw-extension-row-actions aw-management-row-actions">{item.kind === 'system' && <><span className="aw-badge muted">{builtinSystemStatus(state, item.systemId!)}</span><button className="aw-button aw-subtle" onClick={() => setSystemDialog(item.systemId!)}>{admin ? '权限设置' : '查看权限'}</button></>}{!item.builtin && <button className="aw-button aw-subtle" onClick={() => item.kind === 'skill' ? manageSkills() : setEditingMcp(item.id)}>{item.kind === 'skill' ? '编辑与测试' : '编辑'}</button>}<span className="aw-extension-scope">{item.kind === 'system' ? '平台预置' : enabled && !effective ? '随插件停用' : device ? '设备' : '系统'}</span><button role="switch" disabled={!admin} aria-checked={enabled} aria-label={`${enabled ? '停用' : '启用'} ${item.name}`} title={enabled && !effective ? '所属插件已停用，此能力暂不可调用' : effective ? '已启用' : '已停用'} className={`aw-toggle ${enabled ? 'is-on' : ''} ${enabled && !effective ? 'is-inherited-off' : ''}`} onClick={() => update(draft => setExtensionEnabled(draft, item.kind, item.id, !enabled, deviceId))}><span /></button></div></article>;
+    })}{!list.length && <div className="aw-extension-empty"><Search size={25} /><h2>{query ? '没有找到匹配的扩展' : activeTab === 'mcp' ? '还没有添加 MCP' : '还没有自建 Skill'}</h2><p>{query ? '试试其他名称或关键词。' : activeTab === 'mcp' ? '添加 MCP 以连接外部工具与业务服务。' : '创建一个 Skill，将开发步骤保存为可复用能力。'}</p>{query ? <button className="aw-button" onClick={() => setQuery('')}>清空搜索</button> : <button className="aw-button" onClick={() => activeTab === 'mcp' ? setEditingMcp('new') : createSkill()}>{activeTab === 'mcp' ? '添加 MCP' : '创建 Skill'}</button>}</div>}</div>
+    {editingMcp && <McpServiceDialog key={editingMcp} state={state} update={update} serviceId={editingMcp === 'new' ? null : editingMcp} close={() => setEditingMcp(null)} />}
+    {systemDialog && <BuiltinSystemConfigurationDialog state={state} update={update} systemId={systemDialog} close={() => setSystemDialog(null)} />}
+    <div className="aw-extension-footnote"><Check size={13} />启停状态自动保存。停用后限制后续调用，已完成步骤和历史记录保留。</div>
+  </ManagementPage>;
+}

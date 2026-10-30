@@ -1,0 +1,482 @@
+/* ==========================================================================
+   AI Studio - 模型服务商配置
+   简洁工业级设计，去除多余二级标签，通过排版自然表达
+   ========================================================================== */
+
+.ams-clean-page {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  font-family: inherit;
+  color: #1f2328;
+}
+
+/* 顶部标题与描述 */
+.ams-clean-header {
+  margin-bottom: 24px;
+}
+
+.ams-clean-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2328;
+  margin: 0 0 8px 0;
+}
+
+.ams-clean-header p {
+  font-size: 13px;
+  color: #656d76;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 服务商列表项 */
+.ams-clean-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ams-clean-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e1e4e8;
+  border-radius: 14px;
+  padding: 16px 20px;
+  background: #ffffff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ams-clean-card:hover {
+  border-color: #d0d7de;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.ams-clean-card-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ams-clean-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1f2328;
+}
+
+.ams-clean-badge {
+  font-size: 11px;
+  padding: 1px 7px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  color: #57606a;
+  background: #f6f8fa;
+  font-weight: 400;
+}
+
+.ams-clean-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 2px;
+  flex-shrink: 0;
+}
+
+.ams-clean-dot.green {
+  background: #10b981;
+}
+
+.ams-clean-dot.red {
+  background: #ef4444;
+}
+
+.ams-clean-card-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ams-clean-btn-edit {
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  padding: 5px 16px;
+  font-size: 13px;
+  color: #24292f;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.ams-clean-btn-edit:hover {
+  background: #f6f8fa;
+  border-color: #afb8c1;
+}
+
+.ams-clean-btn-delete {
+  border: none;
+  background: transparent;
+  color: #ef4444;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 5px 6px;
+  transition: opacity 0.15s;
+}
+
+.ams-clean-btn-delete:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+/* 虚线添加服务商按钮 */
+.ams-clean-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  border: 1.5px dashed #d0d7de;
+  border-radius: 14px;
+  padding: 16px;
+  background: #ffffff;
+  color: #24292f;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin-top: 4px;
+}
+
+.ams-clean-add-btn:hover {
+  border-color: #8c959f;
+  background: #fafbfc;
+}
+
+/* ==========================================================================
+   弹窗规范 (完全对齐图二、图三)
+   ========================================================================== */
+
+.ams-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.ams-clean-modal {
+  width: 100%;
+  max-width: 580px;
+  max-height: 88vh;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.16);
+  padding: 24px 28px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* 顶部 Segmented Control */
+.ams-segment-bar {
+  display: inline-flex;
+  background: #eaecef;
+  border-radius: 9px;
+  padding: 3px;
+  gap: 2px;
+  margin-bottom: 12px;
+}
+
+.ams-segment-btn {
+  border: none;
+  background: transparent;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #57606a;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.ams-segment-btn.active {
+  background: #ffffff;
+  color: #24292f;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.ams-modal-subtext {
+  font-size: 12px;
+  color: #656d76;
+  margin: 0 0 18px 0;
+  line-height: 1.5;
+}
+
+/* 表单行 */
+.ams-form-item {
+  margin-bottom: 16px;
+}
+
+.ams-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #24292f;
+  margin-bottom: 6px;
+}
+
+.ams-input-box,
+.ams-select-box {
+  width: 100%;
+  border: 1px solid #d0d7de;
+  border-radius: 9px;
+  padding: 9px 12px;
+  font-size: 13px;
+  color: #24292f;
+  background: #ffffff;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.ams-input-box::placeholder {
+  color: #8c959f;
+}
+
+.ams-input-box:focus,
+.ams-select-box:focus {
+  border-color: #0969da;
+}
+
+.ams-help-text {
+  font-size: 11.5px;
+  color: #8c959f;
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+/* 自定义设置折叠栏 */
+.ams-accordion-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  color: #57606a;
+  cursor: pointer;
+  padding: 8px 0;
+  margin-top: -4px;
+}
+
+.ams-accordion-btn:hover {
+  color: #24292f;
+}
+
+.ams-divider {
+  border: none;
+  border-top: 1px solid #e1e4e8;
+  margin: 16px 0;
+}
+
+/* 模型目录区 */
+.ams-catalog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.ams-catalog-header-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.ams-catalog-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #24292f;
+}
+
+.ams-catalog-sub {
+  font-size: 11.5px;
+  color: #8c959f;
+  margin-top: 2px;
+}
+
+.ams-catalog-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ams-link-btn {
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  color: #57606a;
+  cursor: pointer;
+  padding: 0;
+}
+
+.ams-link-btn:hover {
+  color: #24292f;
+  text-decoration: underline;
+}
+
+/* 模型列表卡片 */
+.ams-models-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ams-model-card {
+  border: 1px solid #e1e4e8;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ams-model-row-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ams-model-row-main .ams-input-box {
+  flex: 1;
+  padding: 7px 10px;
+  font-size: 12.5px;
+}
+
+.ams-model-expand-btn {
+  border: none;
+  background: transparent;
+  color: #57606a;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.ams-model-expand-btn:hover {
+  background: #f6f8fa;
+}
+
+.ams-model-delete-btn {
+  border: none;
+  background: transparent;
+  color: #656d76;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.ams-model-delete-btn:hover {
+  color: #cf222e;
+  background: #ffebe9;
+}
+
+.ams-model-grid-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.ams-sublabel {
+  display: block;
+  font-size: 12px;
+  color: #57606a;
+  margin-bottom: 4px;
+}
+
+.ams-model-types-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12.5px;
+  color: #24292f;
+}
+
+.ams-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.ams-add-model-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 12.5px;
+  color: #24292f;
+  background: #ffffff;
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: 6px;
+}
+
+.ams-add-model-pill:hover {
+  background: #f6f8fa;
+}
+
+.ams-error-banner {
+  font-size: 12px;
+  color: #cf222e;
+  margin-top: 8px;
+}
+
+/* 底部操作区 */
+.ams-modal-footer-clean {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.ams-clean-cancel {
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  padding: 6px 18px;
+  font-size: 13px;
+  color: #24292f;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.ams-clean-cancel:hover {
+  background: #f6f8fa;
+}
+
+.ams-clean-save {
+  border: none;
+  border-radius: 8px;
+  padding: 6px 20px;
+  font-size: 13px;
+  color: #ffffff;
+  background: #241F7D;
+  cursor: pointer;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.ams-clean-save:hover {
+  background: #1B175F;
+}

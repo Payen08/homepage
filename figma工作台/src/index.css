@@ -1,0 +1,83 @@
+@import 'tailwindcss';
+
+:root {
+  font-family: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #18181b;
+  background: #f4f4f5;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --heroui-primary: #241F7D;
+  --heroui-primary-hover: #1B175F;
+  --heroui-primary-soft: #EDEFFF;
+  --heroui-focus: #241F7D;
+  --heroui-content: #ffffff;
+  --heroui-content-subtle: #f4f4f5;
+  --heroui-divider: #e4e4e7;
+  --heroui-foreground: #18181b;
+  --heroui-muted: #71717a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-width: 1080px;
+  min-height: 700px;
+  height: 100%;
+  overflow: hidden;
+}
+
+button {
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 120ms ease;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid rgba(36, 31, 125, 0.35);
+  outline-offset: 2px;
+}
+
+input,
+textarea {
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+input:focus,
+textarea:focus {
+  box-shadow: 0 0 0 3px rgba(36, 31, 125, 0.08);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #d4d4d8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+}

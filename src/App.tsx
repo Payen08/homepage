@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { lazy, Suspense } from 'react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   ArrowUpRight, Blocks, BookOpen, Box, Bot, ChevronRight, CircleHelp, Cpu, Factory, Filter,
   Globe2, GraduationCap, Handshake, Hexagon, Home, Laptop, Menu, MonitorCog, Network, Search,
@@ -13,14 +13,19 @@ import type { Equipment } from './components/equipmentCatalog';
 import { DetailModal } from './components/DetailModal';
 import { HotHardwareSection } from './components/HotHardwareSection';
 import { DeveloperCenterPage } from './components/DeveloperCenterPage';
+import { DeveloperMarketPlatform } from './components/DeveloperMarketPlatform';
+import { CommunityPage } from './components/CommunityPage';
+import { AcademyPage } from './components/AcademyPage';
 import { IndustrialBentoSection, IndustrialFooter } from './components/IndustrialBentoSection';
 const IndustrialSceneHero = lazy(() => import('./components/IndustrialSceneHero').then(({ IndustrialSceneHero }) => ({ default: IndustrialSceneHero })));
 
 const EquipmentStorePage = lazy(() => import('./components/EquipmentStorePage').then(m => ({ default: m.EquipmentStorePage })));
+const DeveloperPlatformPage = lazy(() => import('./components/DeveloperPlatformPage'));
 
 const navigation = [
   { label: '首页', icon: Home },
   { label: '开放平台', icon: Globe2 },
+  { label: '开放平台2', icon: BookOpen },
   { label: '插件商城', icon: Box },
   { label: '墨影学院', icon: GraduationCap },
   { label: '设备商城', icon: Store },
@@ -116,15 +121,9 @@ function HomePage({ onMarket, onDeveloperCenter, onEquipmentStore, onDevice }: {
           >
             进入开发者中心 <ArrowUpRight size={16} />
           </button>
-          <button
-            className="button button-outline button-large"
-            onClick={() => document.getElementById('hot-hardware')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            探索设备 <ChevronRight size={16} />
-          </button>
         </div>
       </motion.div>
-      <Suspense fallback={<div className="industrial-scene industrial-scene--loading" role="status">正在准备 CNC 工位…</div>}>
+      <Suspense fallback={<div className="industrial-scene industrial-scene--loading" role="status">正在准备场景…</div>}>
         <IndustrialSceneHero />
       </Suspense>
     </section>
@@ -168,7 +167,7 @@ function HomePage({ onMarket, onDeveloperCenter, onEquipmentStore, onDevice }: {
       <CapabilityDetail item={selected} onClose={() => setSelected(null)} />
     </section>
     <HotHardwareSection onOpenMarket={onEquipmentStore} onOpenDevice={onDevice} />
-    <IndustrialFooter onOpenDeveloperCenter={onDeveloperCenter} />
+    <IndustrialFooter onOpenDeveloperCenter={onDeveloperCenter} onOpenMarket={onMarket} onOpenEquipmentStore={onEquipmentStore} />
   </>;
 }
 
@@ -244,15 +243,31 @@ function MarketPage() {
 function DownloadIcon() { return <Download size={14} />; }
 
 export default function App() {
-  const [page, setPage] = useState<'home' | 'market' | 'developer' | 'equipment'>('home');
+  const [page, setPage] = useState<'home' | 'market' | 'developer' | 'developer2' | 'equipment' | 'community' | 'academy'>('home');
+  const [platformOpen, setPlatformOpen] = useState(() => window.location.hash === '#developer-platform');
   const [equipmentVisit, setEquipmentVisit] = useState(0);
   const [initialDevice, setInitialDevice] = useState<Equipment | null>(null);
-  const activeNavLabel = { home: '首页', market: '插件商城', developer: '开放平台', equipment: '设备商城' }[page];
-  const navigateTo = (nextPage: 'home' | 'market' | 'developer' | 'equipment') => {
+  useEffect(() => {
+    const syncPlatformRoute = () => {
+      setPlatformOpen(window.location.hash === '#developer-platform');
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('hashchange', syncPlatformRoute);
+    return () => window.removeEventListener('hashchange', syncPlatformRoute);
+  }, []);
+  const activeNavLabel = { home: '首页', market: '插件商城', developer: '开放平台', developer2: '开放平台2', equipment: '设备商城', community: '社区', academy: '墨影学院' }[page];
+  const navigateTo = (nextPage: 'home' | 'market' | 'developer' | 'developer2' | 'equipment' | 'community' | 'academy') => {
     if (nextPage === 'equipment') setEquipmentVisit(value => value + 1);
     setPage(nextPage);
     window.scrollTo(0, 0);
   };
+  if (platformOpen) {
+    return (
+      <Suspense fallback={<div className="es-viewer-loading" role="status">正在打开开发者平台…</div>}>
+        <DeveloperPlatformPage onBack={() => { window.location.hash = 'top'; }} />
+      </Suspense>
+    );
+  }
   return (
     <main id="top" className="site-shell">
       <header className="site-header">
@@ -272,7 +287,10 @@ export default function App() {
                   if (label === '插件商城') navigateTo('market');
                   else if (label === '首页') navigateTo('home');
                   else if (label === '开放平台') navigateTo('developer');
+                  else if (label === '开放平台2') navigateTo('developer2');
+                  else if (label === '墨影学院') navigateTo('academy');
                   else if (label === '设备商城') { setInitialDevice(null); navigateTo('equipment'); }
+                  else if (label === '社区') navigateTo('community');
                 }}
               >
                 <Icon size={15} strokeWidth={1.8} />
@@ -283,19 +301,25 @@ export default function App() {
           <div className="nav-actions">
             <button className="icon-button" aria-label="帮助中心"><CircleHelp size={19} /></button>
             <button className="button button-quiet">登录</button>
-            <button className="button button-primary nav-cta-pill" onClick={() => navigateTo('developer')}>
-              加入开发者 <ArrowUpRight size={15} />
+            <button className="button button-primary nav-cta-pill" onClick={() => { window.location.hash = 'developer-platform'; }}>
+              开发者平台 <ArrowUpRight size={15} />
             </button>
             <button className="menu-button" aria-label="打开菜单"><Menu size={21} /></button>
           </div>
         </nav>
       </header>
       {page === 'developer' ? (
-        <DeveloperCenterPage onBack={() => navigateTo('home')} />
+        <DeveloperMarketPlatform onSwitchToDev2={() => navigateTo('developer2')} />
+      ) : page === 'developer2' ? (
+        <DeveloperCenterPage onBack={() => navigateTo('home')} onSwitchToPlatform1={() => navigateTo('developer')} />
       ) : page === 'equipment' ? (
         <Suspense fallback={<div className="es-viewer-loading">正在打开设备商城…</div>}><EquipmentStorePage key={`${equipmentVisit}-${initialDevice?.name || 'catalog'}`} initialDevice={initialDevice} onBack={() => navigateTo('home')} /></Suspense>
       ) : page === 'market' ? (
         <MarketPage />
+      ) : page === 'community' ? (
+        <CommunityPage onBackToPlatform={() => navigateTo('developer')} />
+      ) : page === 'academy' ? (
+        <AcademyPage onBackToHome={() => navigateTo('home')} onOpenCommunity={() => navigateTo('community')} />
       ) : (
         <HomePage onMarket={() => navigateTo('market')} onDeveloperCenter={() => navigateTo('developer')} onEquipmentStore={() => { setInitialDevice(null); navigateTo('equipment'); }} onDevice={device => { setInitialDevice(device); navigateTo('equipment'); }} />
       )}

@@ -1,4 +1,5 @@
 import { HomeSectionHeading } from './HomeSectionHeading';
+import { HarnessCapabilitiesGrid } from './HarnessCapabilitiesGrid';
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import {
@@ -191,6 +192,9 @@ export function DeveloperToolsSection({ onOpenDeveloperCenter }: DeveloperToolsS
       <div className="dev-container">
         {/* 区域标题与简洁描述 */}
         <HomeSectionHeading eyebrow="DEVELOPER TOOLS & SDK / 开发工具" title="工业能力接入与开发者套件" description="通过开发工具介绍卡片与代码示例，展示 SDK、API 及其应用场景，了解工业能力的接入方式和基础调用方法。" action={<button onClick={onOpenDeveloperCenter}>进入开发者中心 <ArrowRight size={16} /></button>} />
+
+        {/* 4 大核心能力展示 (一切皆插件 / 完成各类任务 / 适应你的工作方式 / 开发者工具) */}
+        <HarnessCapabilitiesGrid embedded />
 
         {/* 3 张简约平衡的 Hero UI 卡片 */}
         <div className="dev-cards-minimal-grid">

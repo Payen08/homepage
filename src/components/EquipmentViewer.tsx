@@ -52,7 +52,7 @@ export function EquipmentViewer({ model, image, name }: { model: string | null; 
     const reset = () => { target.set(0,modelHeight*.5,0); controls.target.copy(target); camera.position.set(2.8,modelHeight*.5+1.8,3.2); controls.update(); setPart(''); setView('iso'); };
     reset();
     api.current = { reset, zoom: factor => { camera.position.sub(controls.target).multiplyScalar(factor).add(controls.target); controls.update(); }, view: name => { controls.target.set(0,modelHeight*.5,0); camera.position.copy(name === 'front' ? new THREE.Vector3(0,modelHeight*.5,4) : name === 'side' ? new THREE.Vector3(4,modelHeight*.5,0) : new THREE.Vector3(.01,5,.01)); controls.update(); setPart(''); setView(name); }, focus: part => { const y = part === 'platform' ? modelHeight*.55 : part === 'sensor' ? modelHeight*.85 : modelHeight*.12; controls.target.set(0,y,0); camera.position.set(2.3,y+1.2,2.7); controls.update(); setPart(part); setView(''); } };
-    const draco = new DRACOLoader(); draco.setDecoderPath('/draco/'); const loader = new GLTFLoader(); loader.setDRACOLoader(draco);
+    const draco = new DRACOLoader(); draco.setDecoderPath(`${import.meta.env.BASE_URL}draco/`); const loader = new GLTFLoader(); loader.setDRACOLoader(draco);
     const disposeModel = (object: THREE.Object3D) => object.traverse(node => { if (!(node instanceof THREE.Mesh)) return; node.geometry.dispose(); for (const material of Array.isArray(node.material) ? node.material : [node.material]) { for (const value of Object.values(material)) if (value instanceof THREE.Texture) value.dispose(); material.dispose(); } });
     loader.loadAsync(source).then(gltf => {
       if (stopped) { disposeModel(gltf.scene); return; }

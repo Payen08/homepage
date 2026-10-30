@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "check:workbench": "node --import tsx --test scripts/check-agent-workbench.ts scripts/check-agent-device-connections.ts scripts/check-agent-configuration.ts scripts/check-agent-business-catalog.ts scripts/check-tiangong-resources.ts scripts/check-builtin-systems.tsx",
+    "check:scenes": "node --import tsx scripts/check-factory-layouts.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

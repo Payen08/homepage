@@ -52,7 +52,7 @@ export const devices = [
     family: '核心驱控',
     kind: '关键部件',
     label: '核心驱控',
-    image: '/images/hardware/device-4.jpg',
+    image: `${import.meta.env.BASE_URL}images/hardware/device-4.jpg`,
     specs: [['额定参数', '750W / 2.39N·m / 3000rpm'], ['总线协议', 'EtherCAT / CANopen 亚毫秒']],
     budget: '¥1,850',
     delivery: '现货即发',
@@ -90,8 +90,8 @@ export const devices = [
 
 export type Equipment = (typeof devices)[number];
 export function modelForDevice(device: Equipment) {
-  if (device.name.startsWith('MCR')) return '/models/mcr.glb';
-  if (device.name.startsWith('AMR')) return '/models/agv.glb';
+  if (device.name.startsWith('MCR')) return `${import.meta.env.BASE_URL}models/mcr.glb`;
+  if (device.name.startsWith('AMR')) return `${import.meta.env.BASE_URL}models/agv.glb`;
   return null;
 }
 

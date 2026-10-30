@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
+import moyingLogo from '../../墨影logo.png';
 import {
   ArrowRight,
   Check,
@@ -13,7 +14,6 @@ import {
   Cloud,
   Bot,
   Building2,
-  Share2,
   PlusCircle,
   Video,
   Sparkles,
@@ -38,7 +38,7 @@ export function IndustrialBentoSection({
   const [activeProtocol, setActiveProtocol] = useState<string | null>(null);
 
   const handleCopyCmd = () => {
-    navigator.clipboard.writeText('npm i @nexus/industrial-sdk');
+    navigator.clipboard.writeText('npm i @moying/baichuan-sdk');
     setCopiedCmd(true);
     setTimeout(() => setCopiedCmd(false), 2000);
   };
@@ -125,7 +125,7 @@ export function IndustrialBentoSection({
                     </div>
                     <span className="font-label-caps text-xs text-[#e3e1e9] font-medium flex items-center gap-1.5">
                       <Monitor size={14} className="text-[#00daf3]" />
-                      Nexus Studio · TRAJECTORY_FLOW_GEN.graph
+                      百川 Studio · TRAJECTORY_FLOW_GEN.graph
                     </span>
                   </div>
                   <div className="flex items-center gap-3 font-label-caps text-xs">
@@ -570,7 +570,7 @@ export function IndustrialBentoSection({
                   title="点击复制安装命令"
                 >
                   {copiedCmd ? <Check size={14} className="text-[#00daf3]" /> : <Copy size={14} />}
-                  <span>{copiedCmd ? '已复制命令' : 'npm i @nexus/industrial-sdk'}</span>
+                  <span>{copiedCmd ? '已复制命令' : 'npm i @moying/baichuan-sdk'}</span>
                 </button>
               </div>
             </div>
@@ -596,7 +596,7 @@ export function IndustrialBentoSection({
                   <span className="text-[#00daf3]">IndustrialNode</span>,{' '}
                   <span className="text-[#00daf3]">RoboticsBridge</span> &#125;{' '}
                   <span className="text-[#dbb8ff] font-semibold">from</span>{' '}
-                  <span className="text-[#aec6ff]">&#39;@nexus/industrial-sdk&#39;</span>;
+                  <span className="text-[#aec6ff]">&#39;@moying/baichuan-sdk&#39;</span>;
                 </p>
                 <p>
                   <span className="text-[#dbb8ff] font-semibold">const</span> node ={' '}
@@ -646,73 +646,44 @@ export function IndustrialFooter({
   onOpenDeveloperCenter,
 }: {
   onOpenDeveloperCenter?: () => void;
+  onOpenMarket?: () => void;
+  onOpenEquipmentStore?: () => void;
 }) {
   return (
-    <footer className="w-full bg-[#0d0e13] border-t border-white/5 py-12 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
-          <div className="col-span-2">
-            <div className="flex items-center gap-2.5 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-[#1e1f25] flex items-center justify-center text-[#00daf3] border border-white/5">
-                <Share2 size={18} />
-              </div>
-              <span className="font-headline-md text-base font-semibold tracking-tight text-[#e3e1e9]">
-                NEXUS INDUSTRIAL
-              </span>
-            </div>
-            <p className="text-xs sm:text-sm text-[#c1c6d7] max-w-sm mb-4 leading-relaxed">
-              面向工业物联网、高频遥测监测与边缘控制系统的高可用架构开发套件与 API 生态矩阵。
-            </p>
-            <div className="flex items-center gap-2 font-label-caps text-[11px] text-[#c1c6d7]">
-              <span className="w-2 h-2 rounded-full bg-[#00daf3] animate-pulse" />
-              <span>Edge Mesh Cluster: Online (99.995%)</span>
-            </div>
-          </div>
-
-          <div>
-            <div className="font-label-caps text-[11px] text-[#e3e1e9] uppercase mb-3 font-semibold tracking-wider">
-              产品矩阵
-            </div>
-            <ul className="space-y-2 text-xs text-[#c1c6d7]">
-              <li className="hover:text-white cursor-pointer transition-colors">IoT Telemetry Hub</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Edge RTOS Runner</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Robotics Driver SDK</li>
-              <li className="hover:text-white cursor-pointer transition-colors">PLC Protocol Proxy</li>
-            </ul>
-          </div>
-
-          <div>
-            <div className="font-label-caps text-[11px] text-[#e3e1e9] uppercase mb-3 font-semibold tracking-wider">
-              资源与协议
-            </div>
-            <ul className="space-y-2 text-xs text-[#c1c6d7]">
-              <li className="hover:text-white cursor-pointer transition-colors" onClick={onOpenDeveloperCenter}>Modbus/CANopen Specs</li>
-              <li className="hover:text-white cursor-pointer transition-colors" onClick={onOpenDeveloperCenter}>OpenAPI 3.1 Registry</li>
-              <li className="hover:text-white cursor-pointer transition-colors" onClick={onOpenDeveloperCenter}>SDK Download Center</li>
-              <li className="hover:text-white cursor-pointer transition-colors" onClick={onOpenDeveloperCenter}>System Architecture</li>
-            </ul>
-          </div>
-
-          <div>
-            <div className="font-label-caps text-[11px] text-[#e3e1e9] uppercase mb-3 font-semibold tracking-wider">
-              合规与状态
-            </div>
-            <ul className="space-y-2 text-xs text-[#c1c6d7]">
-              <li className="hover:text-white cursor-pointer transition-colors">IEC 62443 Security</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Telemetry SLA Status</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Release Notes v4.18</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Privacy &amp; Terms</li>
-            </ul>
-          </div>
+    <footer className="w-full bg-[#111215] border-t border-white/5 py-16 px-6 sm:px-12">
+      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-start justify-between gap-10">
+        {/* Left Column: Heading, Navigation, Copyright */}
+        <div className="flex flex-col">
+          <span className="text-[13px] font-semibold tracking-wider text-[#e3e1e9] mb-4">
+            MOYING TECH
+          </span>
+          <nav className="flex flex-col gap-2.5 mb-10 text-[13px] text-[#9ca3af]">
+            <button
+              type="button"
+              className="text-left hover:text-white transition-colors cursor-pointer"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              首页
+            </button>
+            <button
+              type="button"
+              className="text-left hover:text-white transition-colors cursor-pointer"
+              onClick={onOpenDeveloperCenter}
+            >
+              开放平台
+            </button>
+          </nav>
+          <span className="text-[12px] text-[#6b7280]">
+            ©2026 Moying Team. All Rights Reserved
+          </span>
         </div>
 
-        <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8b90a0]">
-          <span>© 2025 Nexus Industrial Platform, Inc. All rights reserved.</span>
-          <div className="flex items-center gap-4 font-label-caps text-[10px]">
-            <span>LATENCY: 4.2ms</span>
-            <span>REGION: AP-EAST-1</span>
-            <span>KERNEL: 6.8.0-RT</span>
-          </div>
+        {/* Right Brand: Logo & Brand Name */}
+        <div className="flex items-center gap-3 pt-1">
+          <img src={moyingLogo} alt="墨影科技" className="w-8 h-8 object-contain" />
+          <span className="font-bold text-[19px] text-white tracking-tight">
+            墨影科技
+          </span>
         </div>
       </div>
     </footer>
